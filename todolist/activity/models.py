@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from category.models import Category
 
 # Create your models here.
 
@@ -18,6 +19,10 @@ class Activity(models.Model):
     )
     description = models.TextField()
     due_date = models.DateTimeField()
+    category = models.ManyToManyField(
+        Category,
+        blank=True
+    )
     status = models.CharField(
         max_length=15,
         choices=(
