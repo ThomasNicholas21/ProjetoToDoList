@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import TesteViewTesteAPI
+from category.api.views import TesteViewTesteAPI
 
 
 urlpatterns = [
