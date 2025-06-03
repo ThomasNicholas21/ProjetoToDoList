@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.utils import timezone
 from datetime import datetime
 from activity.models import Activity, Category, User
 
@@ -28,7 +29,7 @@ class ActivityMixin:
         user_data=None,
         title='Activity Title',
         description='Activity Description',
-        due_date=datetime(year=2025, month=12, day=30),
+        due_date=timezone.make_aware(datetime(year=2025, month=12, day=30)),
         category_data=None,
         status='in_progress',
         priority='low',
