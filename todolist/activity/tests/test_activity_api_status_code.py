@@ -22,12 +22,15 @@ class TestApiActivityStatusCode(APITestCase, ActivityMixin):
         self.assertEqual(response.status_code, 500)
 
     # endpoints POST
-    def test_activity_api_post_returns_status_code_200(self):
+    def test_activity_api_post_returns_status_code_201(self):
+        valid_activity = self.make_activity_payload()
+
         activity_url = reverse('activity:activity-api')
-        response = self.client.post(activity_url)
+        response = self.client.post(activity_url, data=valid_activity, format='json')
+
         self.assertEqual(
             response.status_code,
-            200
+            201
         )
 
 
