@@ -20,3 +20,6 @@ class ActivityApiDetailView(APIView):
     
     def patch(self, *args, **kwargs):
         return Response(f'PATCH DETAIL ACTIVITY')
+    
+    def delete(self, *args, **kwargs):
+        return Response(f'DELETE DETAIL ACTIVITY')
