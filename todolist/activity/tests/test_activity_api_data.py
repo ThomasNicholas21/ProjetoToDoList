@@ -37,4 +37,16 @@ class TestApiActivityData(APITestCase, ActivityMixin):
 
 
 class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
-    ...
+    def test_activity_api_detail_get_returns_valid_data(self):
+        data = self.make_activity_in_batch()
+        activity = data[0]
+
+        activity_detail_url = reverse(
+            'activity:activity-detail-api',
+            kwargs={'activity_id': activity.pk}
+        )
+        response = self.client.get(activity_detail_url)
+        serializer = ActivitySerializers(activity)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data, serializer.data)
