@@ -33,6 +33,15 @@ class TestApiActivityStatusCode(APITestCase, ActivityMixin):
             201
         )
 
+    def test_activity_api_post_returns_status_code_400(self):
+        payload = self.make_activity_payload()
+        payload.pop("title")
+
+        url = reverse('activity:activity-api')
+        response = self.client.post(url, data=payload, format='json')
+
+        self.assertEqual(response.status_code, 400)
+
 
 class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
     # endpoints GET
