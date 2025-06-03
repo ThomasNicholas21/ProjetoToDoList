@@ -59,6 +59,21 @@ class ActivityMixin:
 
         return activity
     
+    def make_activity_payload(self):
+        user = self.make_user()
+        category = self.make_category()
+
+        return {
+            "user": user.id,
+            "title": "Título da Atividade",
+            "description": "Descrição de teste",
+            "due_date": timezone.make_aware(datetime(year=2025, month=12, day=30)),
+            "status": "in_progress",
+            "priority": "low",
+            "category": [category.id]
+        }
+
+    
     def make_activity_in_batch(self, amount=10):
         activities = []
         status_list = ['in_progress', 'late', 'finished']
