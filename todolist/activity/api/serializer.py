@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.utils import timezone
 from activity.models import Activity
 
 
@@ -15,3 +16,11 @@ class ActivitySerializers(serializers.ModelSerializer):
         read_only_fields = [
             'created_at', 'updated_at',
         ]
+
+    def create(self, validated_data):
+        due_date = validated_data.get('due_date')
+
+        if due_date < timezone.now():
+            validated_data['status'] = 'late'
+
+        return super().create(validated_data)
