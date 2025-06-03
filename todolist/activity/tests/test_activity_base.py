@@ -2,6 +2,7 @@ from django.test import TestCase
 from django.utils import timezone
 from datetime import datetime
 from activity.models import Activity, Category, User
+import random
 
 
 class ActivityMixin:
@@ -57,6 +58,24 @@ class ActivityMixin:
         activity.category.set([category])
 
         return activity
+    
+    def make_activity_in_batch(self, amount=10):
+        activities = []
+        status_list = ['in_progress', 'late', 'finished']
+        priority_list = ['low', 'medium', 'high']
+        for i in range(amount):
+            kwargs = {
+                'user': {'username': f'u{i}'},
+                'title': f'Activity Title {i}',
+                'description': f'description {i}',
+                'due_date': timezone.make_aware(datetime(year=2025, month=12, day=30)),
+                'status': random.choice(status_list),
+                'priority': random.choice(priority_list),
+                'finished_at': None
+            }
+            recipe = self.make_recipe(**kwargs)
+            activities.append(recipe)
+        return activities
 
 
 class ActivityMixinTestBase(TestCase, ActivityMixin):
