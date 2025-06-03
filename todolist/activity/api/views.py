@@ -12,4 +12,5 @@ class ActivityApiView(APIView):
     
 
 class ActivityApiDetailView(APIView):
-    ...
+    def get(self, *args, **kwargs): 
+        return Response(f"GET DETAIL ACTIVITY")
