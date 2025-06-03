@@ -30,13 +30,28 @@ class ActivityApiView(APIView):
             )
     
     def post(self, *args, **kwargs):
-        serializer = ActivitySerializers(data=self.request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(
-            serializer.data,
-            status=status.HTTP_201_CREATED
-        )
+        try:
+            serializer = ActivitySerializers(data=self.request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(
+                serializer.data,
+                status=status.HTTP_201_CREATED
+            )
+        
+        except Exception as e:
+            mensagem_exception = {
+                'error': 'Unexpected error occurred',
+                'description': f'{e}'
+                }
+
+            if serializer and hasattr(serializer, 'errors') and serializer.errors:
+                error = serializer.errors
+            else:
+                error = mensagem_exception
+
+            return Response(error, status=status.HTTP_400_BAD_REQUEST)   
     
 
 class ActivityApiDetailView(APIView):
