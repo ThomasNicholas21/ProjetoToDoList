@@ -7,6 +7,9 @@ class ActivityApiView(APIView):
     def get(self, *args, **kwargs):
         return Response('GET ACTIVITY')
     
+    def post(self, *args, **kwargs):
+        return Response('POST ACTIVITY')
+    
 
 class ActivityApiDetailView(APIView):
     ...
