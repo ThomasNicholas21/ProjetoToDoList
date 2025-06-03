@@ -3,6 +3,9 @@ from rest_framework.response import Response
 
 # Create your views here.
 
-class TesteViewTesteAPI(APIView):
-    def get(self, request, *args, **kwargs):
-        return Response('TESTE')
+class CategoryApiView(APIView):
+    ...
+
+
+class CategoryApiDetailView(APIView):
+    ...
