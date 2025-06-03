@@ -30,7 +30,13 @@ class ActivityApiView(APIView):
             )
     
     def post(self, *args, **kwargs):
-        return Response('POST ACTIVITY')
+        serializer = ActivitySerializers(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED
+        )
     
 
 class ActivityApiDetailView(APIView):
