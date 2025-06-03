@@ -8,18 +8,27 @@ from activity.models import Activity
 
 class ActivityApiView(APIView):
     def get(self, *args, **kwargs):
-        activities = Activity.objects.all()
-        serializer = ActivitySerializers(
-            activities,
-            many=True
-        )
+        try:
+            activities = Activity.objects.all()
+            serializer = ActivitySerializers(
+                activities,
+                many=True
+            )
 
-        return Response(
-            serializer.data, 
-            status=status.HTTP_200_OK
-        )
+            return Response(
+                serializer.data, 
+                status=status.HTTP_200_OK
+            )
         
-
+        except Exception as e:
+            return Response(
+                {
+                    'error': 'Unexpected error occurred',
+                    'description': f'{e}'
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+    
     def post(self, *args, **kwargs):
         return Response('POST ACTIVITY')
     
