@@ -17,3 +17,6 @@ class ActivityApiDetailView(APIView):
     
     def put(self, *args, **kwargs):
         return Response(f'PUT DETAIL ACTIVITY')
+    
+    def patch(self, *args, **kwargs):
+        return Response(f'PATCH DETAIL ACTIVITY')
