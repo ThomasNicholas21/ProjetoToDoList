@@ -1,7 +1,10 @@
 from django.urls import path
-from activity.api.views import TesteViewAPI
+from activity.api.views import ActivityApiView
+
+
+app_name='activity'
 
 
 urlpatterns = [
-    path('teste/', TesteViewAPI.as_view(), name='teste-api')
+    path('api/activity/', ActivityApiView.as_view(), name='activity-api')
 ]
