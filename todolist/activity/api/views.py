@@ -1,12 +1,25 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from rest_framework import status
+from rest_framework.validators import ValidationError
+from activity.api.serializer import ActivitySerializers
+from activity.models import Activity
 # Create your views here.
 
 class ActivityApiView(APIView):
     def get(self, *args, **kwargs):
-        return Response('GET ACTIVITY')
-    
+        activities = Activity.objects.all()
+        serializer = ActivitySerializers(
+            activities,
+            many=True
+        )
+
+        return Response(
+            serializer.data, 
+            status=status.HTTP_200_OK
+        )
+        
+
     def post(self, *args, **kwargs):
         return Response('POST ACTIVITY')
     
