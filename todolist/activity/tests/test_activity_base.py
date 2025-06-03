@@ -65,7 +65,7 @@ class ActivityMixin:
         priority_list = ['low', 'medium', 'high']
         for i in range(amount):
             kwargs = {
-                'user': {'username': f'u{i}'},
+                'user_data': {'username': f'u{i}'},  # Alterado de 'user' para 'user_data'
                 'title': f'Activity Title {i}',
                 'description': f'description {i}',
                 'due_date': timezone.make_aware(datetime(year=2025, month=12, day=30)),
@@ -73,8 +73,8 @@ class ActivityMixin:
                 'priority': random.choice(priority_list),
                 'finished_at': None
             }
-            recipe = self.make_recipe(**kwargs)
-            activities.append(recipe)
+            activity = self.make_activity(**kwargs)  # Renomeei 'recipe' para 'activity' para ser mais descritivo
+            activities.append(activity)
         return activities
 
 
