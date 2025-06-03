@@ -9,5 +9,5 @@ class TestUrlActivity(TestCase):
         self.assertEqual(activity_url, '/api/activity/')
 
     def test_url_activity_detail_is_correct(self):
-        activity_detail_url = reverse('activity:activity-detail-api')
-        self.assertEqual(activity_detail_url, kwargs={'activity_id': 1})
+        activity_detail_url = reverse('activity:activity-detail-api', kwargs={'activity_id': 1})
+        self.assertEqual(activity_detail_url, '/api/activity/1/')
