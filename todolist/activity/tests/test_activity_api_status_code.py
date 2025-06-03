@@ -5,6 +5,7 @@ from activity.tests.test_activity_base import ActivityMixin
 
 
 class TestApiActivityStatusCode(APITestCase, ActivityMixin):
+    # endpoints GET
     def test_activity_api_get_returns_status_code_200(self):
         activity_url = reverse('activity:activity-api')
         response = self.client.get(activity_url)
@@ -20,6 +21,7 @@ class TestApiActivityStatusCode(APITestCase, ActivityMixin):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 500)
 
+    # endpoints POST
     def test_activity_api_post_returns_status_code_200(self):
         activity_url = reverse('activity:activity-api')
         response = self.client.post(activity_url)
@@ -30,6 +32,7 @@ class TestApiActivityStatusCode(APITestCase, ActivityMixin):
 
 
 class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
+    # endpoints GET
     def test_activity_api_detail_get_returns_status_code_200(self):
         activity = self.make_activity()
         activity_detail_url = reverse(
@@ -44,6 +47,7 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
             200
         )
 
+    # endpoints PUT
     def test_activity_api_detail_put_returns_status_code_200(self):
         activity = self.make_activity()
         activity_detail_url = reverse(
@@ -58,6 +62,7 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
             200
         )
 
+    # endpoints PATCH
     def test_activity_api_detail_patch_returns_status_code_200(self):
         activity = self.make_activity()
         activity_detail_url = reverse(
@@ -72,6 +77,7 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
             200
         )
 
+    # endpoints DELETE
     def test_activity_api_detail_delete_returns_status_code_200(self):
         activity = self.make_activity()
         activity_detail_url = reverse(
