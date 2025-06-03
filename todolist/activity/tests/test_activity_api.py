@@ -35,3 +35,17 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
             response.status_code,
             200
         )
+
+    def test_activity_api_detail_patch_returns_status_code_200(self):
+        activity = self.make_activity()
+        activity_detail_url = reverse(
+            'activity:activity-detail-api', 
+            kwargs={
+                'activity_id': activity.pk
+                }
+            )
+        response = self.client.put(activity_detail_url)
+        self.assertEqual(
+            response.status_code,
+            200
+        )
