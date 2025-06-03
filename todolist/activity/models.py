@@ -29,7 +29,8 @@ class Activity(models.Model):
             ('in_progress', 'In progress'),
             ('late', 'Late'),
             ('finished', 'Finished'),
-        )
+        ),
+        default='in_progress'
     )
     priority = models.CharField(
         max_length=15,
@@ -39,6 +40,6 @@ class Activity(models.Model):
             ('high', 'High'),
         )
     )
-    finished_at = models.DateTimeField()
+    finished_at = models.DateTimeField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
