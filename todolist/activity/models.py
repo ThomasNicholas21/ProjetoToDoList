@@ -38,7 +38,8 @@ class Activity(models.Model):
             ('low', 'Low'),
             ('medium', 'Medium'),
             ('high', 'High'),
-        )
+        ),
+        default=None
     )
     finished_at = models.DateTimeField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
