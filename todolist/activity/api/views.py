@@ -160,13 +160,22 @@ class ActivityApiDetailView(APIView):
             return Response(error, status=status.HTTP_400_BAD_REQUEST)
         
     def delete(self, *args, **kwargs):
-        activity_id = kwargs.get('activity_id')
-        activity = Activity.objects.get(pk=activity_id)
-        activity.delete()
+        try:
+            activity_id = kwargs.get('activity_id')
+            activity = Activity.objects.get(pk=activity_id)
+            activity.delete()
 
-        return Response(
-            {
-                'success': 'activity deleted'
-            },
-            status=status.HTTP_204_NO_CONTENT
-        )
+            return Response(
+                {
+                    'success': 'activity deleted'
+                },
+                status=status.HTTP_204_NO_CONTENT
+            )
+        
+        except Activity.DoesNotExist:
+            return Response(
+                {
+                    'error': 'activity not found.'
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
