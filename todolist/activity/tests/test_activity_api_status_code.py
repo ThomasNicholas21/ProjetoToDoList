@@ -151,6 +151,24 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
             404
         )
 
+    @patch('activity.api.views.Activity.objects.get')
+    def test_activity_api_detail_patch_returns_status_code_400(self, mock_get):
+        mock_get.side_effect = Exception("Erro simulado")
+
+        data = {
+            "title": "Erro forçado",
+            "description": "Testando erro",
+            "due_date": "2025-12-30T00:00:00Z",
+            "status": "in_progress",
+            "priority": "low",
+            "user": 1,
+            "category": [1]
+        }
+        url = reverse('activity:activity-detail-api', kwargs={'activity_id': 1})
+        response = self.client.patch(url, data=data, format='json')
+
+        self.assertEqual(response.status_code, 400)
+
     # endpoints DELETE
     def test_activity_api_detail_delete_returns_status_code_200(self):
         activity = self.make_activity()
