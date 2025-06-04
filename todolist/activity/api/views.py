@@ -84,6 +84,8 @@ class ActivityApiDetailView(APIView):
             )
     
     def put(self, *args, **kwargs):
+        serializer = None 
+        
         try:
             activity_id = kwargs.get('activity_id')
             activity = Activity.objects.get(pk=activity_id)
@@ -103,6 +105,19 @@ class ActivityApiDetailView(APIView):
                 },
                 status=status.HTTP_404_NOT_FOUND
             )
+        
+        except Exception as e:
+            mensagem_exception = {
+                'error': 'Unexpected error occurred',
+                'description': f'{e}'
+                }
+
+            if serializer and hasattr(serializer, 'errors') and serializer.errors:
+                error = serializer.errors
+            else:
+                error = mensagem_exception
+
+            return Response(error, status=status.HTTP_400_BAD_REQUEST)  
     
     def patch(self, *args, **kwargs):
         return Response(f'PATCH DETAIL ACTIVITY')
