@@ -56,4 +56,20 @@ class TestApiDetailCategoryData(APITestCase, CategoryMixin):
         )
 
         self.assertEqual(response.data['category_name'], updated_data['category_name'])
-        
+
+        # endpoints PUT
+    def test_category_api_detail_patch_returns_valid_data(self):
+        category_instance = self.make_category()
+
+        updated_data = self.make_updated_payload(category=category_instance)
+        category_detail_url = reverse(
+            'category:category-detail-api',
+            kwargs={'category_id': category_instance.pk}
+        )
+        response = self.client.patch(
+            category_detail_url,
+            data=updated_data,
+            format='json'
+        )
+
+        self.assertEqual(response.data['category_name'], updated_data['category_name'])
