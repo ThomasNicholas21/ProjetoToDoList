@@ -70,7 +70,7 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
         self.assertEqual(response.data['status'], updated_data['status'])
         self.assertEqual(response.data['priority'], updated_data['priority'])
 
-    def test_activity_api_detail_put_returns_valid_data(self):
+    def test_activity_api_detail_put_returns_valid_data_status_late(self):
         activity_instance = self.make_activity()
 
         updated_data = self.make_updated_payload(activity=activity_instance)
@@ -109,3 +109,20 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
         self.assertEqual(response.data['title'], patch_data['title'])
         self.assertEqual(response.data['status'], patch_data['status'])
         self.assertEqual(response.data['priority'], patch_data['priority'])
+
+    def test_activity_api_detail_patch_returns_valid_data_status_late(self):
+        activity_instance = self.make_activity()
+
+        updated_data = self.make_updated_payload(activity=activity_instance)
+        updated_data['due_date'] = timezone.make_aware(datetime(year=2024, month=12, day=30))
+        activity_detail_url = reverse(
+            'activity:activity-detail-api',
+            kwargs={'activity_id': activity_instance.pk}
+        )
+        response = self.client.patch(
+            activity_detail_url,
+            data=updated_data,
+            format='json'
+        )
+
+        self.assertEqual(response.data['status'], 'late')
