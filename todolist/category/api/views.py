@@ -53,11 +53,29 @@ class CategoryApiView(APIView):
 
 class CategoryApiDetailView(APIView):
     def get(self, *args, **kwargs):
-        category_id = kwargs.get('category_id')
-        category = Category.objects.get(pk=category_id)
-        serializer = CategorySerializer(category)
+        try:
+            category_id = kwargs.get('category_id')
+            category = Category.objects.get(pk=category_id)
+            serializer = CategorySerializer(category)
 
-        return Response(
-            serializer.data,
-            status=status.HTTP_200_OK
-        )
+            return Response(
+                serializer.data,
+                status=status.HTTP_200_OK
+            )
+        
+        except Category.DoesNotExist:
+            return Response(
+                {
+                    'error': 'category not found.'
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        except Exception as e:
+            return Response(
+                {
+                    'error': 'Unexpected error occurred',
+                    'description': f'{e}'
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
