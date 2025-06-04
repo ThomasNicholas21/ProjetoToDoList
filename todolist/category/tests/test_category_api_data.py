@@ -23,3 +23,19 @@ class TestApiCategoryData(APITestCase, CategoryMixin):
         serializer = CategorySerializer(Category.objects.get(id=response.data["id"]))
 
         self.assertEqual(response.data, serializer.data)
+
+
+class TestApiDetailCategoryData(APITestCase, CategoryMixin):
+    # endpoints GET
+    def test_category_api_detail_get_returns_valid_data(self):
+        data = self.make_category_in_batch()
+        category = data[0]
+
+        category_detail_url = reverse(
+            'category:category-detail-api',
+            kwargs={'category_id': category.pk}
+        )
+        response = self.client.get(category_detail_url)
+        serializer = CategorySerializer(category)
+
+        self.assertEqual(response.data, serializer.data)

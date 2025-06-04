@@ -2,6 +2,7 @@ from rest_framework.test import APITestCase
 from unittest.mock import patch
 from django.urls import reverse
 from category.tests.test_category_base import CategoryMixin
+from category.api.serializer import CategorySerializer
 
 
 class TestApiCategoryStatusCode(APITestCase, CategoryMixin):
@@ -42,3 +43,19 @@ class TestApiCategoryStatusCode(APITestCase, CategoryMixin):
 
         self.assertEqual(response.status_code, 400)
 
+
+class TestApiDetailCategoryStatusCode(APITestCase, CategoryMixin):
+    # endpoints GET
+    def test_category_api_detail_get_returns_status_code_200(self):
+        category = self.make_category()
+        category_detail_url = reverse(
+            'category:category-detail-api', 
+            kwargs={
+                'category_id': category.pk
+                }
+            )
+        response = self.client.get(category_detail_url)
+        self.assertEqual(
+            response.status_code,
+            200
+        )
