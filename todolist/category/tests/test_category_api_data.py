@@ -57,7 +57,7 @@ class TestApiDetailCategoryData(APITestCase, CategoryMixin):
 
         self.assertEqual(response.data['category_name'], updated_data['category_name'])
 
-        # endpoints PUT
+    # endpoints PUT
     def test_category_api_detail_patch_returns_valid_data(self):
         category_instance = self.make_category()
 
@@ -73,3 +73,16 @@ class TestApiDetailCategoryData(APITestCase, CategoryMixin):
         )
 
         self.assertEqual(response.data['category_name'], updated_data['category_name'])
+    
+    # endpoints DELETE
+    def test_category_api_detail_delete_data(self):
+        category_instance = self.make_category()
+
+        category_detail_url = reverse(
+            'category:category-detail-api',
+            kwargs={'category_id': category_instance.pk}
+        )
+
+        response = self.client.delete(category_detail_url)
+
+        self.assertFalse(Category.objects.filter(pk=category_instance.pk).exists())
