@@ -36,7 +36,7 @@ class TestApiActivityData(APITestCase, ActivityMixin):
         self.assertEqual(response.data['status'], 'late')
 
 
-class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
+class TestApiDetailActivityData(APITestCase, ActivityMixin):
     # endpoints GET
     def test_activity_api_detail_get_returns_valid_data(self):
         data = self.make_activity_in_batch()
