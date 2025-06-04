@@ -196,3 +196,16 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
             response.status_code,
             404
         )
+
+    @patch('activity.api.views.Activity.objects.get') 
+    def test_get_activity_api_detail_delete_returns_status_code_500(self, mock_get):
+        mock_get.side_effect = Exception("Erro simulado")
+        activity = self.make_activity()
+
+        url = reverse(
+            'activity:activity-detail-api',
+            kwargs={'activity_id': activity.pk}
+        )
+        response = self.client.delete(url)
+
+        self.assertEqual(response.status_code, 500)
