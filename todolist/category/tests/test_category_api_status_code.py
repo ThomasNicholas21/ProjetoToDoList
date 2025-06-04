@@ -85,3 +85,40 @@ class TestApiDetailCategoryStatusCode(APITestCase, CategoryMixin):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 500)
+
+    # endpoints PUT
+    def test_category_api_detail_put_returns_status_code_200(self):
+        category = self.make_category()
+        data = self.make_updated_payload(category)
+
+        url = reverse('category:category-detail-api', kwargs={'category_id': category.pk})
+        response = self.client.put(url, data=data, format='json')
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_category_api_detail_put_returns_status_code_404(self):
+        category = self.make_category()
+        data = self.make_updated_payload(category)
+
+        url = reverse('category:category-detail-api', kwargs={'category_id': 9999})
+        response = self.client.put(url, data=data, format='json')
+
+        self.assertEqual(response.status_code, 404)
+
+    @patch('category.api.views.Category.objects.get')
+    def test_category_api_detail_put_returns_status_code_400(self, mock_get):
+        mock_get.side_effect = Exception("Erro simulado")
+
+        data = {
+            "title": "Erro forçado",
+            "description": "Testando erro",
+            "due_date": "2025-12-30T00:00:00Z",
+            "status": "in_progress",
+            "priority": "low",
+            "user": 1,
+            "category": [1]
+        }
+        url = reverse('category:category-detail-api', kwargs={'category_id': 1})
+        response = self.client.put(url, data=data, format='json')
+
+        self.assertEqual(response.status_code, 400)
