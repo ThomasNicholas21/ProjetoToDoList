@@ -33,3 +33,12 @@ class TestApiCategoryStatusCode(APITestCase, CategoryMixin):
             201
         )
 
+    def test_category_api_post_returns_status_code_400(self):
+        payload = self.make_category_payload()
+        payload.pop("category_name")
+
+        url = reverse('category:category-api')
+        response = self.client.post(url, data=payload, format='json')
+
+        self.assertEqual(response.status_code, 400)
+
