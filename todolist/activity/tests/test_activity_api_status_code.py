@@ -88,17 +88,12 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
     # endpoints PUT
     def test_activity_api_detail_put_returns_status_code_200(self):
         activity = self.make_activity()
-        activity_detail_url = reverse(
-            'activity:activity-detail-api', 
-            kwargs={
-                'activity_id': activity.pk
-                }
-            )
-        response = self.client.put(activity_detail_url)
-        self.assertEqual(
-            response.status_code,
-            200
-        )
+        data = self.make_updated_payload(activity)
+
+        url = reverse('activity:activity-detail-api', kwargs={'activity_id': activity.pk})
+        response = self.client.put(url, data=data, format='json')
+
+        self.assertEqual(response.status_code, 200)
 
     # endpoints PATCH
     def test_activity_api_detail_patch_returns_status_code_200(self):
