@@ -84,7 +84,16 @@ class ActivityApiDetailView(APIView):
             )
     
     def put(self, *args, **kwargs):
-        return Response(f'PUT DETAIL ACTIVITY')
+        activity_id = kwargs.get('activity_id')
+        activity = Activity.objects.get(pk=activity_id)
+        serializer = ActivitySerializers(activity, data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK
+            )
     
     def patch(self, *args, **kwargs):
         return Response(f'PATCH DETAIL ACTIVITY')
