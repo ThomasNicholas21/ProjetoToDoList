@@ -20,3 +20,16 @@ class TestApiCategoryStatusCode(APITestCase, CategoryMixin):
         url = reverse('category:category-api') 
         response = self.client.get(url)
         self.assertEqual(response.status_code, 500)
+    
+    # endpoints POST
+    def test_category_api_post_returns_status_code_201(self):
+        valid_category = self.make_category_payload()
+
+        activity_url = reverse('category:category-api')
+        response = self.client.post(activity_url, data=valid_category, format='json')
+
+        self.assertEqual(
+            response.status_code,
+            201
+        )
+
