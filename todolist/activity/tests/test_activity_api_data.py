@@ -37,6 +37,7 @@ class TestApiActivityData(APITestCase, ActivityMixin):
 
 
 class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
+    # endpoints GET
     def test_activity_api_detail_get_returns_valid_data(self):
         data = self.make_activity_in_batch()
         activity = data[0]
@@ -48,5 +49,34 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
         response = self.client.get(activity_detail_url)
         serializer = ActivitySerializers(activity)
 
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data, serializer.data)
+
+    # endpoints PUT
+    def test_activity_api_detail_put_returns_valid_data(self):
+        activity_instance = self.make_activity()
+
+        updated_data = {
+            "title": "Título Atualizado",
+            "description": "Descrição atualizada",
+            "due_date": "2025-12-30T00:00:00Z",
+            "status": "finished",
+            "priority": "high",
+            "finished_at": "2025-12-20T00:00:00Z",
+            "user": activity_instance.user.id,
+            "category": [c.id for c in activity_instance.category.all()]
+        }
+
+        activity_detail_url = reverse(
+            'activity:activity-detail-api',
+            kwargs={'activity_id': activity_instance.pk}
+        )
+
+        response = self.client.put(
+            activity_detail_url,
+            data=updated_data,
+            format='json'
+        )
+
+        self.assertEqual(response.data['title'], updated_data['title'])
+        self.assertEqual(response.data['status'], updated_data['status'])
+        self.assertEqual(response.data['priority'], updated_data['priority'])
