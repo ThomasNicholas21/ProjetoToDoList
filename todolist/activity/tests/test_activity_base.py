@@ -74,6 +74,7 @@ class ActivityMixin:
         }
     
     def make_updated_payload(self, activity):
+        category = self.make_category()
         return {
             "title": "Atualizado",
             "description": "Atualizado",
@@ -82,7 +83,7 @@ class ActivityMixin:
             "priority": "high",
             "finished_at": "2025-12-20T00:00:00Z",
             "user": activity.user.id,
-            "category": [c.id for c in activity.category.all()]
+            "category": [category.id]
         }
 
     
