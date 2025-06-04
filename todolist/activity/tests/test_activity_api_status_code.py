@@ -59,6 +59,19 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
             200
         )
 
+    def test_activity_api_detail_get_returns_status_code_404(self):
+        activity_detail_url = reverse(
+            'activity:activity-detail-api', 
+            kwargs={
+                'activity_id': 9999
+                }
+            )
+        response = self.client.get(activity_detail_url)
+        self.assertEqual(
+            response.status_code,
+            404
+        )
+
     # endpoints PUT
     def test_activity_api_detail_put_returns_status_code_200(self):
         activity = self.make_activity()
