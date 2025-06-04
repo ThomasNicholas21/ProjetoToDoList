@@ -179,3 +179,12 @@ class ActivityApiDetailView(APIView):
                 },
                 status=status.HTTP_404_NOT_FOUND
             )
+        
+        except Exception as e:
+            return Response(
+                {
+                    'error': 'Unexpected error occurred',
+                    'description': f'{e}'
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
