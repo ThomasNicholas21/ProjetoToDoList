@@ -137,6 +137,20 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
             200
         )
 
+    def test_activity_api_detail_patch_returns_status_code_404(self):
+        activity = self.make_activity()
+        activity_detail_url = reverse(
+            'activity:activity-detail-api', 
+            kwargs={
+                'activity_id': 9999
+                }
+            )
+        response = self.client.patch(activity_detail_url)
+        self.assertEqual(
+            response.status_code,
+            404
+        )
+
     # endpoints DELETE
     def test_activity_api_detail_delete_returns_status_code_200(self):
         activity = self.make_activity()
