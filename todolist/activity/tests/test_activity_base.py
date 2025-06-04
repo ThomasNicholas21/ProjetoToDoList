@@ -93,7 +93,7 @@ class ActivityMixin:
         priority_list = ['low', 'medium', 'high']
         for i in range(amount):
             kwargs = {
-                'user_data': {'username': f'u{i}'},  # Alterado de 'user' para 'user_data'
+                'user_data': {'username': f'u{i}'},
                 'title': f'Activity Title {i}',
                 'description': f'description {i}',
                 'due_date': timezone.make_aware(datetime(year=2025, month=12, day=30)),
@@ -101,7 +101,7 @@ class ActivityMixin:
                 'priority': random.choice(priority_list),
                 'finished_at': None
             }
-            activity = self.make_activity(**kwargs)  # Renomeei 'recipe' para 'activity' para ser mais descritivo
+            activity = self.make_activity(**kwargs)
             activities.append(activity)
         return activities
 
@@ -109,4 +109,3 @@ class ActivityMixin:
 class ActivityMixinTestBase(TestCase, ActivityMixin):
     def setUp(self) -> None:
         return super().setUp()
-    
