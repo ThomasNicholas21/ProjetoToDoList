@@ -7,10 +7,10 @@ from category.tests.test_category_base import CategoryMixin
 
 class TestApiCategoryData(APITestCase, CategoryMixin):
     # endpoints GET
-    def test_activity_api_get_returns_valid_data(self):
+    def test_category_api_get_returns_valid_data(self):
         data = self.make_category_in_batch(amount=5)
-        activity_url = reverse('category:category-api')
-        response = self.client.get(activity_url)
+        category_url = reverse('category:category-api')
+        response = self.client.get(category_url)
         serializer = CategorySerializer(data, many=True)
         self.assertEqual(response.data, serializer.data)
 
@@ -39,3 +39,21 @@ class TestApiDetailCategoryData(APITestCase, CategoryMixin):
         serializer = CategorySerializer(category)
 
         self.assertEqual(response.data, serializer.data)
+
+    # endpoints PUT
+    def test_category_api_detail_put_returns_valid_data(self):
+        category_instance = self.make_category()
+
+        updated_data = self.make_updated_payload(category=category_instance)
+        category_detail_url = reverse(
+            'category:category-detail-api',
+            kwargs={'category_id': category_instance.pk}
+        )
+        response = self.client.put(
+            category_detail_url,
+            data=updated_data,
+            format='json'
+        )
+
+        self.assertEqual(response.data['category_name'], updated_data['category_name'])
+        
