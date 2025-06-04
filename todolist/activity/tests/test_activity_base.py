@@ -72,6 +72,18 @@ class ActivityMixin:
             "priority": "low",
             "category": [category.id]
         }
+    
+    def make_updated_payload(self, activity):
+        return {
+            "title": "Atualizado",
+            "description": "Atualizado",
+            "due_date": "2025-12-30T00:00:00Z",
+            "status": "finished",
+            "priority": "high",
+            "finished_at": "2025-12-20T00:00:00Z",
+            "user": activity.user.id,
+            "category": [c.id for c in activity.category.all()]
+        }
 
     
     def make_activity_in_batch(self, amount=10):
