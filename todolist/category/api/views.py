@@ -152,3 +152,33 @@ class CategoryApiDetailView(APIView):
 
             return Response(error, status=status.HTTP_400_BAD_REQUEST)   
         
+    def delete(self, *args, **kwargs):
+        try:
+            category_id = kwargs.get('category_id')
+            category = Category.objects.get(pk=category_id)
+            category.delete()
+
+            return Response(
+                {
+                    'success': 'category deleted'
+                },
+                status=status.HTTP_204_NO_CONTENT
+            )
+        
+        except Category.DoesNotExist:
+            return Response(
+                {
+                    'error': 'category not found.'
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        except Exception as e:
+            return Response(
+                {
+                    'error': 'Unexpected error occurred',
+                    'description': f'{e}'
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+        
