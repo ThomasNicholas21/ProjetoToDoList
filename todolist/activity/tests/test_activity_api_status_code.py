@@ -95,6 +95,15 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
 
         self.assertEqual(response.status_code, 200)
 
+    def test_activity_api_detail_put_returns_status_code_404(self):
+        activity = self.make_activity()
+        data = self.make_updated_payload(activity)
+
+        url = reverse('activity:activity-detail-api', kwargs={'activity_id': 9999})
+        response = self.client.put(url, data=data, format='json')
+
+        self.assertEqual(response.status_code, 404)
+
     # endpoints PATCH
     def test_activity_api_detail_patch_returns_status_code_200(self):
         activity = self.make_activity()
