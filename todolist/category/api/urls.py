@@ -7,5 +7,5 @@ app_name='category'
 
 urlpatterns = [
     path('api/category/', CategoryApiView.as_view(), name='category-api'),
-    path('api/category/<int:category_id>/', CategoryApiDetailView.as_view(), name='category-datail-api')
+    path('api/category/<int:category_id>/', CategoryApiDetailView.as_view(), name='category-detail-api')
 ]
