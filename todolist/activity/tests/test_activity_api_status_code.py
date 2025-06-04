@@ -72,6 +72,19 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
             404
         )
 
+    @patch('activity.api.views.Activity.objects.get') 
+    def test_get_activity_api_detail_get_returns_status_code_500(self, mock_get):
+        mock_get.side_effect = Exception("Erro simulado")
+        activity = self.make_activity()
+
+        url = reverse(
+            'activity:activity-detail-api',
+            kwargs={'activity_id': activity.pk}
+        )
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 500)
+
     # endpoints PUT
     def test_activity_api_detail_put_returns_status_code_200(self):
         activity = self.make_activity()
