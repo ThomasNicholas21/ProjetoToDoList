@@ -25,6 +25,16 @@ class CategoryApiView(APIView):
                 },
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+    
+    def post(self, *args, **kwargs):
+        serializer = CategorySerializer(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED
+        )
 
 
 class CategoryApiDetailView(APIView):
