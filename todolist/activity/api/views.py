@@ -85,7 +85,7 @@ class ActivityApiDetailView(APIView):
     
     def put(self, *args, **kwargs):
         serializer = None 
-        
+
         try:
             activity_id = kwargs.get('activity_id')
             activity = Activity.objects.get(pk=activity_id)
@@ -120,7 +120,20 @@ class ActivityApiDetailView(APIView):
             return Response(error, status=status.HTTP_400_BAD_REQUEST)  
     
     def patch(self, *args, **kwargs):
-        return Response(f'PATCH DETAIL ACTIVITY')
+        activity_id = kwargs.get('activity_id')
+        activity = Activity.objects.get(pk=activity_id)
+        serializer = ActivitySerializers(
+            activity, 
+            data=self.request.data, 
+            partial=True
+            )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK
+            )
     
     def delete(self, *args, **kwargs):
         return Response(f'DELETE DETAIL ACTIVITY')
