@@ -8,13 +8,23 @@ from category.api.serializer import CategorySerializer
 
 class CategoryApiView(APIView):
     def get(self, *args, **kwargs):
-        categories = Category.objects.all()
-        serializer = CategorySerializer(categories, many=True)
+        try:
+            categories = Category.objects.all()
+            serializer = CategorySerializer(categories, many=True)
 
-        return Response(
-            serializer.data,
-            status=status.HTTP_200_OK
-        )
+            return Response(
+                serializer.data,
+                status=status.HTTP_200_OK
+            )
+        
+        except Exception as e:
+            return Response(
+                {
+                    'error': 'Unexpected error occurred',
+                    'description': f'{e}'
+                },
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
 
 class CategoryApiDetailView(APIView):
