@@ -3,8 +3,8 @@ from activity.models import Category
 
 
 class CategoryMixin:
-    def make_category(self, name='Category'):
-        return Category.objects.create(category_name=name)
+    def make_category(self, category_name='Category'):
+        return Category.objects.create(category_name=category_name)
 
     def make_category_payload(self):
         return {
