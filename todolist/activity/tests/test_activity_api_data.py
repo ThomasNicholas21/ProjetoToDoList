@@ -55,22 +55,11 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
     def test_activity_api_detail_put_returns_valid_data(self):
         activity_instance = self.make_activity()
 
-        updated_data = {
-            "title": "Título Atualizado",
-            "description": "Descrição atualizada",
-            "due_date": "2025-12-30T00:00:00Z",
-            "status": "finished",
-            "priority": "high",
-            "finished_at": "2025-12-20T00:00:00Z",
-            "user": activity_instance.user.id,
-            "category": [c.id for c in activity_instance.category.all()]
-        }
-
+        updated_data = self.make_updated_payload(activity=activity_instance)
         activity_detail_url = reverse(
             'activity:activity-detail-api',
             kwargs={'activity_id': activity_instance.pk}
         )
-
         response = self.client.put(
             activity_detail_url,
             data=updated_data,
