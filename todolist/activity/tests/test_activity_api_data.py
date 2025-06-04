@@ -126,3 +126,16 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
         )
 
         self.assertEqual(response.data['status'], 'late')
+
+    # endpoints DELETE
+    def test_activity_api_detail_delete_data(self):
+        activity_instance = self.make_activity()
+
+        activity_detail_url = reverse(
+            'activity:activity-detail-api',
+            kwargs={'activity_id': activity_instance.pk}
+        )
+
+        response = self.client.delete(activity_detail_url)
+
+        self.assertFalse(Activity.objects.filter(pk=activity_instance.pk).exists())

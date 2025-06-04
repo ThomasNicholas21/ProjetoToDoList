@@ -181,5 +181,5 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
         response = self.client.delete(activity_detail_url)
         self.assertEqual(
             response.status_code,
-            200
+            204
         )
