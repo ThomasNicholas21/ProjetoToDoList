@@ -120,19 +120,30 @@ class ActivityApiDetailView(APIView):
             return Response(error, status=status.HTTP_400_BAD_REQUEST)  
     
     def patch(self, *args, **kwargs):
-        activity_id = kwargs.get('activity_id')
-        activity = Activity.objects.get(pk=activity_id)
-        serializer = ActivitySerializers(
-            activity, 
-            data=self.request.data, 
-            partial=True
-            )
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer = None
 
-        return Response(
-            serializer.data,
-            status=status.HTTP_200_OK
+        try:
+            activity_id = kwargs.get('activity_id')
+            activity = Activity.objects.get(pk=activity_id)
+            serializer = ActivitySerializers(
+                activity, 
+                data=self.request.data, 
+                partial=True
+                )
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(
+                serializer.data,
+                status=status.HTTP_200_OK
+                )
+        
+        except Activity.DoesNotExist:
+            return Response(
+                {
+                    'error': 'activity not found.'
+                },
+                status=status.HTTP_404_NOT_FOUND
             )
     
     def delete(self, *args, **kwargs):
