@@ -115,3 +115,40 @@ class CategoryApiDetailView(APIView):
                 error = mensagem_exception
 
             return Response(error, status=status.HTTP_400_BAD_REQUEST)   
+        
+    def patch(self, *args, **kwargs):
+        serializer = None
+
+        try:
+            category_id = kwargs.get('category_id')
+            category = Category.objects.get(pk=category_id)
+            serializer = CategorySerializer(category, data=self.request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+
+            return Response(
+                serializer.data,
+                status=status.HTTP_200_OK
+            )
+        
+        except Category.DoesNotExist:
+            return Response(
+                {
+                    'error': 'category not found.'
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        except Exception as e:
+            mensagem_exception = {
+                'error': 'Unexpected error occurred',
+                'description': f'{e}'
+                }
+
+            if serializer and hasattr(serializer, 'errors') and serializer.errors:
+                error = serializer.errors
+            else:
+                error = mensagem_exception
+
+            return Response(error, status=status.HTTP_400_BAD_REQUEST)   
+        
