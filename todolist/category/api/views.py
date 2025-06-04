@@ -52,4 +52,12 @@ class CategoryApiView(APIView):
 
 
 class CategoryApiDetailView(APIView):
-    ...
+    def get(self, *args, **kwargs):
+        category_id = kwargs.get('category_id')
+        category = Category.objects.get(pk=category_id)
+        serializer = CategorySerializer(category)
+
+        return Response(
+            serializer.data,
+            status=status.HTTP_200_OK
+        )
