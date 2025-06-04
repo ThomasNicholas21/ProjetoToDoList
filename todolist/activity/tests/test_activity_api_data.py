@@ -86,4 +86,26 @@ class TestApiDetailActivityStatusCode(APITestCase, ActivityMixin):
         )
 
         self.assertEqual(response.data['status'], 'late')
-        
+
+    # endpoints PATCH
+    def test_activity_api_detail_patch_returns_valid_data(self):
+        activity_instance = self.make_activity()
+
+        patch_data = {
+            'title': 'Título atualizado via PATCH',
+            'status': 'finished',
+            'priority': 'high'
+        }
+        activity_detail_url = reverse(
+            'activity:activity-detail-api',
+            kwargs={'activity_id': activity_instance.pk}
+        )
+        response = self.client.patch(
+            activity_detail_url,
+            data=patch_data,
+            format='json'
+        )
+
+        self.assertEqual(response.data['title'], patch_data['title'])
+        self.assertEqual(response.data['status'], patch_data['status'])
+        self.assertEqual(response.data['priority'], patch_data['priority'])
