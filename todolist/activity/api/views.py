@@ -55,8 +55,24 @@ class ActivityApiView(APIView):
     
 
 class ActivityApiDetailView(APIView):
-    def get(self, *args, **kwargs): 
-        return Response(f"GET DETAIL ACTIVITY")
+    def get(self, *args, **kwargs):
+        try:
+            activity_id = kwargs.get('activity_id')
+            activity = Activity.objects.get(pk=activity_id)
+            serializer = ActivitySerializers(activity)
+
+            return Response(
+                serializer.data,
+                status=status.HTTP_200_OK
+                )
+        
+        except Activity.DoesNotExist:
+            return Response(
+                {
+                    'error': 'activity not found.'
+                },
+                status=status.HTTP_404_NOT_FOUND
+            )
     
     def put(self, *args, **kwargs):
         return Response(f'PUT DETAIL ACTIVITY')
