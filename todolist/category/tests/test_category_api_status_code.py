@@ -2,7 +2,6 @@ from rest_framework.test import APITestCase
 from unittest.mock import patch
 from django.urls import reverse
 from category.tests.test_category_base import CategoryMixin
-from category.api.serializer import CategorySerializer
 
 
 class TestApiCategoryStatusCode(APITestCase, CategoryMixin):
