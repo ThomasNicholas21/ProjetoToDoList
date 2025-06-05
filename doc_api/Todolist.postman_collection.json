@@ -1,0 +1,372 @@
+{
+	"info": {
+		"_postman_id": "92be3de1-86c9-41c9-bc17-f4b51159055e",
+		"name": "Todolist",
+		"description": "Simple Todolist API documentation\n\nObservation:\n\nIf an activity is created with a `_due_date_` earlier than the current date, its status will automatically be set to **'late'.**\n\nIf an activity is created or updated with the status **'finished'**, the `finished_at` attribute will be set to the current date and time.The same logic applies when updating an activity using `PATCH` or `PUT` requests.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "42261958"
+	},
+	"item": [
+		{
+			"name": "Activity",
+			"item": [
+				{
+					"name": "GET",
+					"item": [
+						{
+							"name": "Get Activity",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}api/activity/",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"activity",
+										""
+									]
+								},
+								"description": "will return something like:\n\n``` json\n[\n    {\n        \"id\": 1,\n        \"user\": 1,\n        \"title\": \"Complete project documentation\",\n        \"description\": \"Finish writing the technical documentation for the new API features\",\n        \"due_date\": \"2022-12-15T18:00:00Z\",\n        \"category\": [\"created category\"],\n        \"status\": \"late\",\n        \"priority\": \"low\",\n        \"finished_at\": null,\n        \"created_at\": \"2025-06-03T21:31:23.247716Z\",\n        \"updated_at\": \"2025-06-04T14:50:39.597410Z\"\n    }\n]\n\n ```"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Detail Activity",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}api/activity/{{id}}/",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"activity",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Get all activities registered endpoint"
+				},
+				{
+					"name": "POST",
+					"item": [
+						{
+							"name": "Post Activity",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"user\": 1,\r\n  \"title\": \"Complete project documentation\",\r\n  \"description\": \"Finish writing the technical documentation for the new API features\",\r\n  \"due_date\": \"2023-12-15T18:00:00Z\",\r\n  \"status\": \"in_progress\",\r\n  \"priority\": \"high\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}api/activity/",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"activity",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PUT",
+					"item": [
+						{
+							"name": "Put Activity",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"user\": 1,\r\n  \"title\": \"Complete project documentation\",\r\n  \"description\": \"Finish writing the technical documentation for the new API features\",\r\n  \"due_date\": \"2025-12-15T18:00:00Z\",\r\n  \"status\": \"in_progress\",\r\n  \"priority\": \"medium\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}api/activity/{{id}}/",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"activity",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PATCH",
+					"item": [
+						{
+							"name": "Patch Activity",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"due_date\": \"2022-12-15T18:00:00Z\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}api/activity/{{id}}/",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"activity",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DELETE",
+					"item": [
+						{
+							"name": "New Request",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{base_url}}api/activity/{{id}}/",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"activity",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "Activities are what you have to do in your to-do list."
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "GET",
+					"item": [
+						{
+							"name": "Get Category",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{base_url}}api/category/",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"category",
+										""
+									]
+								},
+								"description": "will return something like:\n\n``` json\n[\n    {\n        \"id\": 1,\n        \"category_name\": \"Study\",\n        \"created_at\": \"2025-06-05T13:57:24.672020Z\",\n        \"updated_at\": \"2025-06-05T13:57:24.672020Z\"\n    }\n]\n\n ```"
+							},
+							"response": []
+						},
+						{
+							"name": "Get Detail Category",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{base_url}}api/category/{{id}}/",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"category",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "POST",
+					"item": [
+						{
+							"name": "New Request",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"category_name\": \"Study\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}api/category/",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"category",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PUT",
+					"item": [
+						{
+							"name": "Put Category",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"category_name\": \"Category\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}api/category/{{id}}/",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"category",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "PATCH",
+					"item": [
+						{
+							"name": "New Request",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"category_name\": \"Review\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}api/category/{{id}}/",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"category",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "DELETE",
+					"item": [
+						{
+							"name": "New Request",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}api/activity/{{id}}/",
+									"host": [
+										"{{base_url}}api"
+									],
+									"path": [
+										"activity",
+										"{{id}}",
+										""
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"description": "Categories determine what type your activity belongs to."
+		}
+	]
+}
