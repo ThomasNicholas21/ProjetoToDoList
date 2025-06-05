@@ -38,17 +38,13 @@ class CategoryApiView(APIView):
             )
         
         except Exception as e:
-            mensagem_exception = {
-                'error': 'Unexpected error occurred',
-                'description': f'{e}'
-                }
-
-            if serializer and hasattr(serializer, 'errors') and serializer.errors:
-                error = serializer.errors
-            else:
-                error = mensagem_exception
-
-            return Response(error, status=status.HTTP_400_BAD_REQUEST)   
+            return Response(
+                {
+                    'error': 'Unexpected error occurred',
+                    'description': f'{e}'
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
 
 class CategoryApiDetailView(APIView):
@@ -104,17 +100,13 @@ class CategoryApiDetailView(APIView):
             )
         
         except Exception as e:
-            mensagem_exception = {
-                'error': 'Unexpected error occurred',
-                'description': f'{e}'
-                }
-
-            if serializer and hasattr(serializer, 'errors') and serializer.errors:
-                error = serializer.errors
-            else:
-                error = mensagem_exception
-
-            return Response(error, status=status.HTTP_400_BAD_REQUEST)   
+            return Response(
+                {
+                    'error': 'Unexpected error occurred',
+                    'description': f'{e}'
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
         
     def patch(self, *args, **kwargs):
         serializer = None
@@ -140,17 +132,13 @@ class CategoryApiDetailView(APIView):
             )
         
         except Exception as e:
-            mensagem_exception = {
-                'error': 'Unexpected error occurred',
-                'description': f'{e}'
-                }
-
-            if serializer and hasattr(serializer, 'errors') and serializer.errors:
-                error = serializer.errors
-            else:
-                error = mensagem_exception
-
-            return Response(error, status=status.HTTP_400_BAD_REQUEST)   
+            return Response(
+                {
+                    'error': 'Unexpected error occurred',
+                    'description': f'{e}'
+                },
+                status=status.HTTP_400_BAD_REQUEST
+            )
         
     def delete(self, *args, **kwargs):
         try:
