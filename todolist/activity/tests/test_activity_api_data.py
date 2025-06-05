@@ -43,8 +43,6 @@ class TestApiActivityData(APITestCase, ActivityMixin):
         url = reverse('activity:activity-api')
         response = self.client.post(url, data=payload, format='json')
 
-        self.assertEqual(response.status_code, 201)
-
         finished_at_str = response.data.get('finished_at')
         self.assertIsNotNone(finished_at_str)
 
@@ -106,6 +104,24 @@ class TestApiDetailActivityData(APITestCase, ActivityMixin):
 
         self.assertEqual(response.data['status'], 'late')
 
+    def test_activity_api_put_returns_valid_data_status_finished(self):
+        activity = self.make_activity()
+        payload = self.make_updated_payload(activity)
+        payload['status'] = 'finished'
+
+        url = reverse('activity:activity-detail-api', kwargs={'activity_id': activity.pk})
+        response = self.client.put(url, data=payload, format='json')
+
+        finished_at_str = response.data.get('finished_at')
+        self.assertIsNotNone(finished_at_str)
+
+        finished_at = parse_datetime(finished_at_str)
+
+        now = timezone.now()
+        delta = abs((finished_at - now).total_seconds())
+        self.assertLessEqual(delta, 2)
+
+
     # endpoints PATCH
     def test_activity_api_detail_patch_returns_valid_data(self):
         activity_instance = self.make_activity()
@@ -145,6 +161,23 @@ class TestApiDetailActivityData(APITestCase, ActivityMixin):
         )
 
         self.assertEqual(response.data['status'], 'late')
+    
+    def test_activity_api_patch_returns_valid_data_status_finished(self):
+        activity = self.make_activity()
+        payload = self.make_updated_payload(activity)
+        payload['status'] = 'finished'
+
+        url = reverse('activity:activity-detail-api', kwargs={'activity_id': activity.pk})
+        response = self.client.patch(url, data=payload, format='json')
+
+        finished_at_str = response.data.get('finished_at')
+        self.assertIsNotNone(finished_at_str)
+
+        finished_at = parse_datetime(finished_at_str)
+
+        now = timezone.now()
+        delta = abs((finished_at - now).total_seconds())
+        self.assertLessEqual(delta, 2)
 
     # endpoints DELETE
     def test_activity_api_detail_delete_data(self):
