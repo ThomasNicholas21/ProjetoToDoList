@@ -19,9 +19,13 @@ class ActivitySerializers(serializers.ModelSerializer):
 
     def create(self, validated_data):
         due_date = validated_data.get('due_date')
+        status = validated_data.get('status')
 
         if due_date < timezone.now():
             validated_data['status'] = 'late'
+
+        if status == 'finished':
+            validated_data['finished_at'] = timezone.now()
 
         return super().create(validated_data)
     
