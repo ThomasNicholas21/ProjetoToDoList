@@ -32,12 +32,18 @@ class ActivitySerializers(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         categories = validated_data.pop('category', None)
         due_date = validated_data.get('due_date')
+        status = validated_data.get('status')
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
         if due_date and due_date < timezone.now():
             instance.status = 'late'
+
+        if status == 'finished':
+            instance.finished_at = timezone.now()
+        else:
+            instance.finished_at = None
 
         instance.save()
 
