@@ -79,9 +79,8 @@ class ActivityMixin:
             "title": "Atualizado",
             "description": "Atualizado",
             "due_date": "2025-12-30T00:00:00Z",
-            "status": "finished",
+            "status": "in_progress",
             "priority": "high",
-            "finished_at": "2025-12-20T00:00:00Z",
             "user": activity.user.id,
             "category": [category.id]
         }
