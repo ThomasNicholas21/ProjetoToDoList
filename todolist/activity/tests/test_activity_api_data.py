@@ -50,7 +50,6 @@ class TestApiActivityData(APITestCase, ActivityMixin):
 
         finished_at = parse_datetime(finished_at_str)
 
-        # Verifica se o finished_at está dentro de 2 segundos da hora atual
         now = timezone.now()
         delta = abs((finished_at - now).total_seconds())
         self.assertLessEqual(delta, 2)
