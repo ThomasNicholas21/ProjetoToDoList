@@ -3,6 +3,7 @@ from activity.api.serializer import ActivitySerializers
 from activity.models import Activity
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.dateparse import parse_datetime
 from datetime import datetime
 from activity.tests.test_activity_base import ActivityMixin
 
@@ -34,6 +35,25 @@ class TestApiActivityData(APITestCase, ActivityMixin):
         response = self.client.post(url, data=payload, format='json')
 
         self.assertEqual(response.data['status'], 'late')
+
+    def test_activity_api_post_returns_valid_data_status_finished(self):
+        payload = self.make_activity_payload()
+        payload['status'] = 'finished'
+
+        url = reverse('activity:activity-api')
+        response = self.client.post(url, data=payload, format='json')
+
+        self.assertEqual(response.status_code, 201)
+
+        finished_at_str = response.data.get('finished_at')
+        self.assertIsNotNone(finished_at_str)
+
+        finished_at = parse_datetime(finished_at_str)
+
+        # Verifica se o finished_at está dentro de 2 segundos da hora atual
+        now = timezone.now()
+        delta = abs((finished_at - now).total_seconds())
+        self.assertLessEqual(delta, 2)
 
 
 class TestApiDetailActivityData(APITestCase, ActivityMixin):
